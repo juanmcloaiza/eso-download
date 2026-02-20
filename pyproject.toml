@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools_scm[toml]>=7.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eso-download"
+description = "CLI to download ESO raw and Phase3 archive data and metadata"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "BSD"}
+authors = [{name="Juan M. Carmona Loaiza", email="jcarmona@eso.org"}]
+keywords = ["ESO", "astroquery", "VLT", "CLI", "astronomy"]
+dependencies = [
+    "astroquery>0.4.11"  # a0, b0, rc0, etc., will allow pre-releases
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+#    "pytest-doctestplus>=1.4",
+#    "pytest-timeout",
+#    "pytest-astropy",
+#    "pytest-dependency",
+#    "pytest-rerunfailures",
+]
+
+[project.scripts]
+eso-download = "eso_download.cli:main"
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"  # tag 0.1.0 + 3 commits = 0.2.0.dev3
+#version_scheme = "post-release"   # tag 0.1.0 + 3 commits = 0.1.0.post3
+#local_scheme = "node-and-date"    # not allowd by twine upload
+local_scheme = "no-local-version"
+write_to = "eso_download/_version.py"
+
+[tool.flake8]
+max-line-length = 100
+
+[tool.pycodestyle]
+max_line_length = 100

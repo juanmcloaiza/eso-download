@@ -11,7 +11,7 @@ license = {text = "BSD"}
 authors = [{name="Juan M. Carmona Loaiza", email="jcarmona@eso.org"}]
 keywords = ["ESO", "astroquery", "VLT", "CLI", "astronomy"]
 dependencies = [
-    "astroquery>0.4.11"  # a0, b0, rc0, etc., will allow pre-releases
+    "astroquery>=0.4.12.dev10525"
 ]
 dynamic = ["version"]
 

@@ -1,0 +1,191 @@
+.TH ESO-DOWNLOAD 1 "February 2026" "eso-download" "User Commands"
+
+.SH NAME
+eso-download \- Query and download data from the ESO Science Archive
+
+.SH SYNOPSIS
+.B eso-download
+.RI [ global-options ]
+.B raw
+.RI [ options ]
+
+.br
+.B eso-download
+.RI [ global-options ]
+.B phase3
+.RI [ options ]
+
+.SH DESCRIPTION
+.B eso-download
+is a command-line interface for querying and downloading data from the
+ESO (European Southern Observatory) Science Archive.
+
+It supports:
+
+.TP
+.B raw
+Queries and downloads raw observational data.
+
+.TP
+.B phase3
+Queries and downloads Phase 3 (processed, science-ready) data products.
+
+The tool uses the astroquery ESO module and supports authenticated
+access to proprietary data via the ESO User Portal.
+
+.SH REQUIREMENTS
+.IP \(bu 2
+Python >= 3.10
+.IP \(bu 2
+astroquery >= 0.4.12.dev10525
+
+.SH GLOBAL OPTIONS
+.TP
+.B --user \fIUSERNAME\fR
+ESO User Portal username. Enables authenticated queries.
+
+.TP
+.B --deauthenticate
+Remove stored credentials for the given user from the keyring.
+
+.TP
+.B --max-rows \fIN\fR
+Maximum number of records returned (default: 100).
+
+.TP
+.B --with-calib raw|processed
+Download associated calibration files.
+
+.TP
+.B --count-only
+Print number of matching records and exit.
+
+.TP
+.B --metadata-only
+Write query results to CSV and exit without downloading data.
+
+.TP
+.B --outdir \fIDIR\fR
+Output directory for downloaded files (default: eso_downloads).
+
+.SH RAW OPTIONS
+.TP
+.B --run-id \fIID\fR
+ESO Run ID (e.g. 090.C-0733(A)).
+
+.TP
+.B --instrument \fINAME\fR
+Instrument name (e.g. FORS2).
+
+.TP
+.B --target-name \fINAME\fR
+Target name substring match.
+
+.TP
+.B --ra \fIDEG\fR
+Right Ascension in degrees.
+
+.TP
+.B --dec \fIDEG\fR
+Declination in degrees.
+
+.TP
+.B --file-cat SCIENCE|CALIB|ACQUISITION
+Filter by data product category.
+
+.TP
+.B --start-date YYYY-MM-DD
+Start of observation date range.
+
+.TP
+.B --end-date YYYY-MM-DD
+End of observation date range.
+
+.SH PHASE3 OPTIONS
+.TP
+.B --proposal-id \fIID\fR
+ESO Proposal ID (e.g. 094.B-0345(A)).
+
+.TP
+.B --collection \fINAME\fR
+Survey/collection name (e.g. MUSE).
+
+.TP
+.B --instrument \fINAME\fR
+Instrument name.
+
+.TP
+.B --facility \fINAME\fR
+Facility name (e.g. ESO-VLT-U4).
+
+.TP
+.B --target-name \fINAME\fR
+Target name substring match.
+
+.TP
+.B --ra \fIDEG\fR
+Right Ascension in degrees.
+
+.TP
+.B --dec \fIDEG\fR
+Declination in degrees.
+
+.TP
+.B --release-date-start YYYY-MM-DD
+Release date range start.
+
+.TP
+.B --release-date-end YYYY-MM-DD
+Release date range end.
+
+.TP
+.B --publication-date-start YYYY-MM-DD
+Publication date range start.
+
+.TP
+.B --publication-date-end YYYY-MM-DD
+Publication date range end.
+
+.SH AUTHENTICATION
+If
+.B --user
+is provided, the tool prompts for the ESO password and stores it securely
+using the system keyring.
+
+To remove stored credentials:
+
+    eso-download raw --user USERNAME --deauthenticate
+
+.SH OUTPUT
+Query results are written to:
+
+    query_results.csv
+
+in the specified output directory.
+
+Downloaded datasets are retrieved using astroquery and automatically
+uncompressed.
+
+.SH EXAMPLES
+
+Count raw datasets:
+
+    eso-download raw --run-id 090.C-0733(A) --count-only
+
+Download Phase3 data by target:
+
+    eso-download phase3 --target-name "NGC 253"
+
+Query by sky position:
+
+    eso-download raw --ra 129.0629 --dec -26.4093 --max-rows 20
+
+.SH EXIT STATUS
+Returns 0 on success.
+Non-zero on authentication failure, version mismatch, or runtime errors.
+
+.SH AUTHOR
+ESO Science Archive Group
+
+Man page written by ChatGPT (OpenAI)
+

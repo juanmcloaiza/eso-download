@@ -9,7 +9,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "BSD"}
 authors = [{name="Juan M. Carmona Loaiza", email="jcarmona@eso.org"}]
-keywords = ["ESO", "astroquery", "VLT", "CLI", "astronomy"]
+keywords = ["ESO", "astroquery", "data", "archive", "astronomy"]
 dependencies = [
     "astroquery>=0.4.12.dev10525"
 ]

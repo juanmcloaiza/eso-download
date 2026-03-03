@@ -1,85 +1,176 @@
-TODO - real readme
+# eso-download
 
-"""
-ESO archive downloader CLI.
+Command-line utility to query and download ESO Archive raw and Phase3 data.
 
-This script provides a command-line interface to query and download
-ESO raw and Phase3 archive data.
+## Requirements
 
-Requirements
-------------
+ - `python>=3.10`
+ - `astroquery>=0.4.12` (current pre-release `v0.4.12.dev10525`)
 
- - Python >= 3.10
- - astroquery >= 0.4.12 (currently pre-release)
+## Usage examples
 
-    ```
-    $ python -m pip install -U --pre astroquery --no-cache-dir
-    ```
+### Raw archive
 
-Recommendation
---------------
+```
+    $ eso-download raw --help
+```
 
-    To use the script as a command, make it executable and
-    add it to some deirectory in your $PATH, e.g., /us/local/bin:
-
-        $ chmod +x eso-download.py
-        $ mv eso-download.py /usr/local/bin/
-
-    Now you can run it from anywhere as in the examples below.
-
-Usage examples
---------------
-
-Raw archive::
-
-    eso-download raw --help
-
-    eso-download raw --user <user> \
+```
+    $ eso-download raw --user <user> \
         --run-id "090.C-0733(A)" \
         --instrument FORS2
+```
 
-    eso-download raw --user <user> \
+```
+    $ eso-download raw --user <user> \
         --ra 129.0629 --dec -26.4093 \
         --max-rows 20
+```
 
-    eso-download raw --run-id '090.C-0733(A)' \
+```
+    $ eso-download raw --run-id '090.C-0733(A)' \
         --instrument FORS2 \
         --start-date 2013-01-01 --end-date 2013-04-01 \
         --file-cat SCIENCE \
         --max-rows 30 --metadata-only
+```
 
-Phase3 archive::
+### Phase3 archive
 
-    eso-download phase3 --help
+```
+    $ eso-download phase3 --help
+```
 
-    eso-download phase3 --user <user> \
+```
+    $ eso-download phase3 --user <user> \
         --proposal-id "094.B-0345(A)" \
         --collection MUSE
+```
 
-    eso-download phase3 --user <user> \
+```
+    $ eso-download phase3 --user <user> \
         --target-name "NGC 253"
+```
 
-    eso-download phase3 --proposal-id '275.A-5060(A)' \
+```
+    $ eso-download phase3 --proposal-id '275.A-5060(A)' \
         --instrument FORS2 \
         --target-name 'GDS J033223' \
         --ra 53.1 --dec -27.73\
         --publication-date-start 2014-07-11 --publication-date-end 2014-07-12 \
         --facility ESO-VLT-U1 \
         --max-rows 30 --metadata-only
+```
 
-General options::
+### Common options - count available records and query metadata only
 
-    eso-download raw --count-only
-    eso-download phase3 --metadata-only
+```
+    $ eso-download raw --count-only
+```
+
+```
+    $ eso-download phase3 --metadata-only
+```
 
 
-Authenticate / Deauthenticate:
+### Authenticate / Deauthenticate
 
-    eso-download [raw|phase3] --user <username>
-    # Downloads data and metadata available to user <username>
-    # Prompts password if not yet unauthenticated.
+-  To download proprietary data and metadata available only to user <username>:
 
-    eso-download [raw|phase3] --user <username> --deauthenticate
-    # Deletes password from keyring;
-    # Password for <username> will need to be re-entered next time.
-"""
+    ```
+    $ eso-download [raw|phase3] --user <username>
+    ```
+    A password is required if not yet unauthenticated.
+
+
+- To delete a saved password (deauthenticate):
+    ```
+    $ eso-download [raw|phase3] --user <username> --deauthenticate
+    ```
+
+    Password for `<username>` will need to be re-entered next time.
+
+## General Usage
+
+
+### Phase3
+
+```
+$ eso-download phase3 -h
+```
+```
+usage: eso-download phase3 [-h] [--user USER] [--deauthenticate] [--max-rows MAX_ROWS] [--with-calib {raw,processed}]
+                           [--count-only] [--metadata-only] [--outdir OUTDIR] [--target-name TARGET_NAME] [--ra RA]
+                           [--dec DEC] [--proposal-id PROPOSAL_ID] [--instrument INSTRUMENT] [--collection COLLECTION]
+                           [--facility FACILITY] [--release-date-start RELEASE_DATE_START]
+                           [--release-date-end RELEASE_DATE_END] [--publication-date-start PUBLICATION_DATE_START]
+                           [--publication-date-end PUBLICATION_DATE_END]
+
+options:
+  -h, --help            show this help message and exit
+  --user USER           ESO User Portal username; if provided, a password will be required
+  --deauthenticate      Remove password from keyring. Use with --user <username>
+  --max-rows MAX_ROWS
+  --with-calib {raw,processed}
+  --count-only          Print the count of records and exit
+  --metadata-only       Save a csv with the matching records and exit
+  --outdir OUTDIR
+  --target-name TARGET_NAME
+                        Target name (metadata match)
+  --ra RA               Right Ascension in degrees
+  --dec DEC             Declination in degrees
+  --proposal-id PROPOSAL_ID
+                        ESO Proposal ID (e.g. 094.B-0345(A))
+  --instrument INSTRUMENT
+                        Instrument name (e.g. MUSE)
+  --collection COLLECTION
+                        Observation collection name (e.g. MUSE)
+  --facility FACILITY   Facility name (e.g. ESO-VLT-U4)
+  --release-date-start RELEASE_DATE_START
+                        Release date range start (YYYY-MM-DD)
+  --release-date-end RELEASE_DATE_END
+                        Release date range end (YYYY-MM-DD)
+  --publication-date-start PUBLICATION_DATE_START
+                        Publication date range start (YYYY-MM-DD)
+  --publication-date-end PUBLICATION_DATE_END
+                        Publication date range end (YYYY-MM-DD)
+```
+
+
+### Raw
+
+```
+$ eso-download raw -h
+```
+
+
+```
+usage: eso-download raw [-h] [--user USER] [--deauthenticate] [--max-rows MAX_ROWS] [--with-calib {raw,processed}]
+                        [--count-only] [--metadata-only] [--outdir OUTDIR] [--target-name TARGET_NAME] [--ra RA] [--dec DEC]
+                        [--run-id RUN_ID] [--instrument INSTRUMENT] [--file-cat {SCIENCE,CALIB,ACQUISITION}]
+                        [--start-date START_DATE] [--end-date END_DATE]
+
+options:
+  -h, --help            show this help message and exit
+  --user USER           ESO User Portal username; if provided, a password will be required
+  --deauthenticate      Remove password from keyring. Use with --user <username>
+  --max-rows MAX_ROWS
+  --with-calib {raw,processed}
+  --count-only          Print the count of records and exit
+  --metadata-only       Save a csv with the matching records and exit
+  --outdir OUTDIR
+  --target-name TARGET_NAME
+                        Target name (metadata match)
+  --ra RA               Right Ascension (degrees)
+  --dec DEC             Declination (degrees)
+  --run-id RUN_ID       ESO Run ID (e.g. 090.C-0733(A))
+  --instrument INSTRUMENT
+                        Instrument name (e.g. FORS2)
+  --file-cat {SCIENCE,CALIB,ACQUISITION}
+  --start-date START_DATE
+                        Start date YYYY-MM-DD
+  --end-date END_DATE   End date YYYY-MM-DD
+
+  ```
+
+  ---

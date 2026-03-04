@@ -63,7 +63,7 @@ Phase3 archive::
         --instrument FORS2 \
         --target-name 'GDS J033223' \
         --ra 53.1 --dec -27.73\
-        --publication-date-start 2014-07-11 --publication-date-end 2014-07-12 \
+        --publication-date-min 2014-07-11 --publication-date-max 2014-07-12 \
         --facility ESO-VLT-U1 \
         --max-rows 30 --metadata-only
 
@@ -282,26 +282,26 @@ def build_filters_phase3(parsed_args: argparse.Namespace) -> Dict[str, str]:
         filters["facility_name"] = f"='{parsed_args.facility}'"
 
     # Release date
-    if parsed_args.release_date_start and parsed_args.release_date_end:
+    if parsed_args.release_date_min and parsed_args.release_date_max:
         filters["obs_release_date"] = (
-            f"between '{parsed_args.release_date_start}' "
-            f"and '{parsed_args.release_date_end}'"
+            f"between '{parsed_args.release_date_min}' "
+            f"and '{parsed_args.release_date_max}'"
         )
-    elif parsed_args.release_date_start:
-        filters["obs_release_date"] = f">='{parsed_args.release_date_start}'"
-    elif parsed_args.release_date_end:
-        filters["obs_release_date"] = f"<='{parsed_args.release_date_end}'"
+    elif parsed_args.release_date_min:
+        filters["obs_release_date"] = f">='{parsed_args.release_date_min}'"
+    elif parsed_args.release_date_max:
+        filters["obs_release_date"] = f"<='{parsed_args.release_date_max}'"
 
     # Publication date
-    if parsed_args.publication_date_start and parsed_args.publication_date_end:
+    if parsed_args.publication_date_min and parsed_args.publication_date_max:
         filters["publication_date"] = (
-            f"between '{parsed_args.publication_date_start}' "
-            f"and '{parsed_args.publication_date_end}'"
+            f"between '{parsed_args.publication_date_min}' "
+            f"and '{parsed_args.publication_date_max}'"
         )
-    elif parsed_args.publication_date_start:
-        filters["publication_date"] = f">='{parsed_args.publication_date_start}'"
-    elif parsed_args.publication_date_end:
-        filters["publication_date"] = f"<='{parsed_args.publication_date_end}'"
+    elif parsed_args.publication_date_min:
+        filters["publication_date"] = f">='{parsed_args.publication_date_min}'"
+    elif parsed_args.publication_date_max:
+        filters["publication_date"] = f"<='{parsed_args.publication_date_max}'"
 
     return filters
 
@@ -387,13 +387,13 @@ def register_phase3_subparser(
         "--collection", help="Observation collection name (e.g. MUSE)")
     p.add_argument("--facility", help="Facility name (e.g. ESO-VLT-U4)")
 
-    p.add_argument("--release-date-start",
+    p.add_argument("--release-date-min",
                    help="Release date range start (YYYY-MM-DD)")
-    p.add_argument("--release-date-end",
+    p.add_argument("--release-date-max",
                    help="Release date range end (YYYY-MM-DD)")
-    p.add_argument("--publication-date-start",
+    p.add_argument("--publication-date-min",
                    help="Publication date range start (YYYY-MM-DD)")
-    p.add_argument("--publication-date-end",
+    p.add_argument("--publication-date-max",
                    help="Publication date range end (YYYY-MM-DD)")
 
     p.set_defaults(func=handle_phase3)

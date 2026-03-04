@@ -57,7 +57,7 @@ Command-line utility to query and download ESO Archive raw and Phase3 data.
         --instrument FORS2 \
         --target-name 'GDS J033223' \
         --ra 53.1 --dec -27.73\
-        --publication-date-start 2014-07-11 --publication-date-end 2014-07-12 \
+        --publication-date-min 2014-07-11 --publication-date-max 2014-07-12 \
         --facility ESO-VLT-U1 \
         --max-rows 30 --metadata-only
 ```
@@ -102,9 +102,9 @@ $ eso-download phase3 -h
 usage: eso-download phase3 [-h] [--user USER] [--deauthenticate] [--max-rows MAX_ROWS] [--with-calib {raw,processed}]
                            [--count-only] [--metadata-only] [--outdir OUTDIR] [--target-name TARGET_NAME] [--ra RA]
                            [--dec DEC] [--proposal-id PROPOSAL_ID] [--instrument INSTRUMENT] [--collection COLLECTION]
-                           [--facility FACILITY] [--release-date-start RELEASE_DATE_START]
-                           [--release-date-end RELEASE_DATE_END] [--publication-date-start PUBLICATION_DATE_START]
-                           [--publication-date-end PUBLICATION_DATE_END]
+                           [--facility FACILITY] [--release-date-min RELEASE_DATE]
+                           [--release-date-max RELEASE_DATE] [--publication-date-min PUBLICATION_DATE]
+                           [--publication-date-max PUBLICATION_DATE]
 
 options:
   -h, --help            show this help message and exit
@@ -126,13 +126,13 @@ options:
   --collection COLLECTION
                         Observation collection name (e.g. MUSE)
   --facility FACILITY   Facility name (e.g. ESO-VLT-U4)
-  --release-date-start RELEASE_DATE_START
+  --release-date-min RELEASE_DATE
                         Release date range start (YYYY-MM-DD)
-  --release-date-end RELEASE_DATE_END
+  --release-date-max RELEASE_DATE
                         Release date range end (YYYY-MM-DD)
-  --publication-date-start PUBLICATION_DATE_START
+  --publication-date-min PUBLICATION_DATE
                         Publication date range start (YYYY-MM-DD)
-  --publication-date-end PUBLICATION_DATE_END
+  --publication-date-max PUBLICATION_DATE
                         Publication date range end (YYYY-MM-DD)
 ```
 
